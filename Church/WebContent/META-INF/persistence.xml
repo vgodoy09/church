@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0"
+ xmlns="http://java.sun.com/xml/ns/persistence">
+ <persistence-unit name="controlefinanceiro">
+  <provider>org.hibernate.ejb.HibernatePersistence</provider>
+<!--   <class>br.com.controlefinanceiro.modelo.Usuario</class> -->
+<!--   <class>br.com.controlefinanceiro.logs.LogUsuario</class> -->
+<!--   <class>br.com.controlefinanceiro.logs.LogTransacao</class> -->
+<!--   <class>br.com.controlefinanceiro.modelo.Categoria</class> -->
+<!--   <class>br.com.controlefinanceiro.modelo.Contas</class> -->
+<!--   <class>br.com.controlefinanceiro.modelo.Notas</class> -->
+<!--   <class>br.com.controlefinanceiro.modelo.Tarefa</class> -->
+<!--   <class>br.com.controlefinanceiro.modelo.Sonho</class> -->
+<!--   <class>br.com.controlefinanceiro.modelo.Transacao</class> -->
+<!--   <class>br.com.controlefinanceiro.modelo.Pais</class> -->
+<!--   <class>br.com.controlefinanceiro.modelo.Estado</class> -->
+<!--   <class>br.com.controlefinanceiro.modelo.Cidade</class> -->
+<!--   <class>br.com.controlefinanceiro.modelo.Lembretes</class> -->
+  <properties>
+   <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+   <property name="hibernate.hbm2ddl.auto" value="update" />
+   <property name="hibernate.show_sql" value="true" />
+   <property name="hibernate.format_sql" value="false" />
+   <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+   <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/controlefinanceiro" />
+   <property name="javax.persistence.jdbc.user" value="postgres" />
+   <property name="javax.persistence.jdbc.password" value="x8pdkv19" />
+  </properties>
+ </persistence-unit>
+</persistence>
