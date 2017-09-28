@@ -322,11 +322,11 @@ public class DAOMenu extends DAO<Menu>{
 		return null;
 	}
 	
-	public void atualizar(Menu objeto) throws SQLException, ClassNotFoundException {
+	public Menu atualizar(Menu objeto) throws SQLException, ClassNotFoundException {
         Connection conexao = null;
         try {
             conexao = Util.criaConexaoMySql();
-            atualizar(objeto, conexao);
+            return atualizar(objeto, conexao);
         } finally {
             try {
                 conexao.close();
@@ -336,13 +336,13 @@ public class DAOMenu extends DAO<Menu>{
     }
 
 	@Override
-	public void atualizar(Menu objeto, Connection conexao) throws SQLException {
+	public Menu atualizar(Menu objeto, Connection conexao) throws SQLException {
 		PreparedStatement sql = conexao.prepareStatement("update menu set link =? ,name =?,fatherMenu_id=? ,ordination=? ,"
 				+ "image=? ,element_id=? ,active=? ,application_id=? where id =?");
 		sql = setSql(sql, objeto);
 		sql.setInt(9, objeto.getId());
 		sql.executeUpdate();
-		
+		return objeto;
 	}
 	
 	private PreparedStatement setSql(PreparedStatement sql, Menu obj) throws SQLException{
@@ -480,11 +480,11 @@ public class DAOMenu extends DAO<Menu>{
 		return null;
 	}
 
-	public void salvar(Menu objeto) throws SQLException, ClassNotFoundException {
+	public Menu salvar(Menu objeto) throws SQLException, ClassNotFoundException {
         Connection conexao = null;
         try {
             conexao = Util.criaConexaoMySql();
-            salvar(objeto, conexao);
+            return salvar(objeto, conexao);
         } finally {
             try {
                 conexao.close();
@@ -494,11 +494,12 @@ public class DAOMenu extends DAO<Menu>{
     }
 	
 	@Override
-	public void salvar(Menu objeto, Connection conexao) throws SQLException {
+	public Menu salvar(Menu objeto, Connection conexao) throws SQLException {
 		PreparedStatement sql = conexao.prepareStatement("insert into menu (link,name,fatherMenu_id,ordination,image,element_id,"
 				+ " active,application_id) values (?,?,?,?,?,?,?,?)");
 		sql = setSql(sql, objeto);
 		sql.execute();
+		return objeto;
 	}
 	
 	public void createdProfileMenu(Integer profile_id, Integer menu_id) throws SQLException, ClassNotFoundException {

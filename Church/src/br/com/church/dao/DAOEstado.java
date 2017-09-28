@@ -93,10 +93,10 @@ public class DAOEstado extends DAO<Estado>{
 	}
 
 	@Override
-	public void atualizar(Estado objeto, Connection conexao)
+	public Estado atualizar(Estado objeto, Connection conexao)
 			throws SQLException {
 		// TODO Auto-generated method stub
-		
+		return objeto;
 	}
 
 	@Override
@@ -120,9 +120,9 @@ public class DAOEstado extends DAO<Estado>{
 	}
 
 	@Override
-	public void salvar(Estado objeto, Connection conexao) throws SQLException {
+	public Estado salvar(Estado objeto, Connection conexao) throws SQLException {
 		// TODO Auto-generated method stub
-		
+		return objeto;
 	}
 	
 }

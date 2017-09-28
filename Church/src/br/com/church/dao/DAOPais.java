@@ -93,9 +93,9 @@ public class DAOPais extends DAO<Pais>{
 	}
 
 	@Override
-	public void atualizar(Pais objeto, Connection conexao) throws SQLException {
+	public Pais atualizar(Pais objeto, Connection conexao) throws SQLException {
 		// TODO Auto-generated method stub
-		
+		return objeto;
 	}
 
 	@Override
@@ -117,9 +117,9 @@ public class DAOPais extends DAO<Pais>{
 	}
 
 	@Override
-	public void salvar(Pais objeto, Connection conexao) throws SQLException {
+	public Pais salvar(Pais objeto, Connection conexao) throws SQLException {
 		// TODO Auto-generated method stub
-		
+		return objeto;
 	}
 	
 }

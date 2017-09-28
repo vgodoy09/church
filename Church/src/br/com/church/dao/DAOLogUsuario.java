@@ -64,10 +64,10 @@ public class DAOLogUsuario extends DAO<LogUsuario>{
 	}
 
 	@Override
-	public void atualizar(LogUsuario objeto, Connection conexao)
+	public LogUsuario atualizar(LogUsuario objeto, Connection conexao)
 			throws SQLException {
 		// TODO Auto-generated method stub
-		
+		return objeto;
 	}
 
 	@Override
@@ -91,10 +91,10 @@ public class DAOLogUsuario extends DAO<LogUsuario>{
 	}
 
 	@Override
-	public void salvar(LogUsuario objeto, Connection conexao)
+	public LogUsuario salvar(LogUsuario objeto, Connection conexao)
 			throws SQLException {
 		// TODO Auto-generated method stub
-		
+		return objeto;
 	}
 
 }

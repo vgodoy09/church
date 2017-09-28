@@ -182,11 +182,11 @@ public class DAOPerfil extends DAO<Perfil>{
 		return null;
 	}
 
-	public void atualizar(Perfil objeto) throws SQLException, ClassNotFoundException {
+	public Perfil atualizar(Perfil objeto) throws SQLException, ClassNotFoundException {
         Connection conexao = null;
         try {
             conexao = Util.criaConexaoMySql();
-            atualizar(objeto, conexao);
+            return atualizar(objeto, conexao);
         } finally {
             try {
                 conexao.close();
@@ -196,12 +196,13 @@ public class DAOPerfil extends DAO<Perfil>{
     }
 	
 	@Override
-	public void atualizar(Perfil objeto, Connection conexao) throws SQLException {
+	public Perfil atualizar(Perfil objeto, Connection conexao) throws SQLException {
 		PreparedStatement sql = conexao.prepareStatement("update profile set name=?, "
 				+ "application_id=? where id =?");
 		sql = setSql(sql, objeto);
 		sql.setInt(3, objeto.getId());
 		sql.executeUpdate();
+		return objeto;
 	}
 	
 
@@ -240,11 +241,11 @@ public class DAOPerfil extends DAO<Perfil>{
 		return null;
 	}
 
-	public void salvar(Perfil objeto) throws SQLException, ClassNotFoundException {
+	public Perfil salvar(Perfil objeto) throws SQLException, ClassNotFoundException {
         Connection conexao = null;
         try {
             conexao = Util.criaConexaoMySql();
-            salvar(objeto, conexao);
+            return salvar(objeto, conexao);
         } finally {
             try {
                 conexao.close();
@@ -254,11 +255,12 @@ public class DAOPerfil extends DAO<Perfil>{
     }
 	
 	@Override
-	public void salvar(Perfil objeto, Connection conexao) throws SQLException {
+	public Perfil salvar(Perfil objeto, Connection conexao) throws SQLException {
 		PreparedStatement sql = conexao.prepareStatement("insert into profile (name,application_id) "
 				+ " values (?, ?)");
 		sql = setSql(sql, objeto);
 		sql.execute();
+		return objeto;
 	}
 	
 	public Perfil atualizarComRetorno(Perfil objeto) throws SQLException, ClassNotFoundException {

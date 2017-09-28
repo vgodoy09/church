@@ -60,6 +60,8 @@ public class Usuario extends EntidadeDominio implements Serializable{
 	private transient String nom_cidade;
 	private transient String enderecoCompleto;
 	private transient String dataFormatada;
+	private transient String statusName;
+	private transient String sexoName;
 	
 //    @ONETOMANY(MAPPEDBY = "USUARIO", TARGETENTITY = LOGUSUARIO.CLASS, FETCH = FETCHTYPE.LAZY, CASCADE = CASCADETYPE.ALL)
 //    Private List<LogUsuario> logusuario;
@@ -167,5 +169,17 @@ public class Usuario extends EntidadeDominio implements Serializable{
 	}
 	public void setDataFormatada(String dataFormatada) {
 		this.dataFormatada = dataFormatada;
+	}
+	public String getStatusName() {
+		return statusName;
+	}
+	public void setStatusName(String statusName) {
+		this.statusName = statusName;
+	}
+	public String getSexoName() {
+		return sexoName;
+	}
+	public void setSexoName(String sexoName) {
+		this.sexoName = sexoName;
 	}
 }

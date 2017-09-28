@@ -149,11 +149,11 @@ public class DAOTela extends DAO<Tela>{
 		return null;
 	}
 
-	public void atualizar(Tela objeto) throws SQLException, ClassNotFoundException {
+	public Tela atualizar(Tela objeto) throws SQLException, ClassNotFoundException {
         Connection conexao = null;
         try {
             conexao = Util.criaConexaoMySql();
-            atualizar(objeto, conexao);
+            return atualizar(objeto, conexao);
         } finally {
             try {
                 conexao.close();
@@ -163,12 +163,13 @@ public class DAOTela extends DAO<Tela>{
     }
 	
 	@Override
-	public void atualizar(Tela objeto, Connection conexao) throws SQLException {
+	public Tela atualizar(Tela objeto, Connection conexao) throws SQLException {
 		PreparedStatement sql = conexao.prepareStatement("update screen set name=?, fileName=?, "
 				+ "application_id=? where id =?");
 		sql = setSql(sql, objeto);
 		sql.setInt(4, objeto.getId());
 		sql.executeUpdate();
+		return objeto;
 	}
 	
 
@@ -210,11 +211,11 @@ public class DAOTela extends DAO<Tela>{
 		return null;
 	}
 
-	public void salvar(Tela objeto) throws SQLException, ClassNotFoundException {
+	public Tela salvar(Tela objeto) throws SQLException, ClassNotFoundException {
         Connection conexao = null;
         try {
             conexao = Util.criaConexaoMySql();
-            salvar(objeto, conexao);
+            return salvar(objeto, conexao);
         } finally {
             try {
                 conexao.close();
@@ -224,11 +225,12 @@ public class DAOTela extends DAO<Tela>{
     }
 	
 	@Override
-	public void salvar(Tela objeto, Connection conexao) throws SQLException {
+	public Tela salvar(Tela objeto, Connection conexao) throws SQLException {
 		PreparedStatement sql = conexao.prepareStatement("insert into screen (name,fileName,application_id) "
 				+ " values (?, ?, ?)");
 		sql = setSql(sql, objeto);
 		sql.execute();
+		return objeto;
 	}
 
 }

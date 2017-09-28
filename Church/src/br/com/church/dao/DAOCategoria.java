@@ -210,10 +210,9 @@ public class DAOCategoria extends DAO<Categoria>{
 	}
 
 	@Override
-	public void atualizar(Categoria objeto, Connection conexao)
-			throws SQLException {
+	public Categoria atualizar(Categoria objeto, Connection conexao) throws SQLException {
 		// TODO Auto-generated method stub
-		
+		return objeto;
 	}
 
 	@Override
@@ -237,9 +236,8 @@ public class DAOCategoria extends DAO<Categoria>{
 	}
 
 	@Override
-	public void salvar(Categoria objeto, Connection conexao)
-			throws SQLException {
+	public Categoria salvar(Categoria objeto, Connection conexao) throws SQLException {
 		// TODO Auto-generated method stub
-		
+		return objeto;
 	}
 }

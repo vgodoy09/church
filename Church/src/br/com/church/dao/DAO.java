@@ -117,11 +117,11 @@ public abstract class DAO<T> {
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    public void salvar(T objeto) throws SQLException, ClassNotFoundException {
+    public T salvar(T objeto) throws SQLException, ClassNotFoundException {
         Connection conexao = null;
         try {
             conexao = Util.criaConexaoMySql();
-            salvar(objeto, conexao);
+           return salvar(objeto, conexao);
         } finally {
             try {
                 conexao.close();
@@ -194,11 +194,11 @@ public abstract class DAO<T> {
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    public void atualizar(T objeto) throws SQLException, ClassNotFoundException {
+    public T atualizar(T objeto) throws SQLException, ClassNotFoundException {
         Connection conexao = null;
         try {
             conexao = Util.criaConexaoMySql();
-            atualizar(objeto, conexao);
+           return atualizar(objeto, conexao);
         } finally {
             try {
                 conexao.close();
@@ -213,7 +213,7 @@ public abstract class DAO<T> {
      * @param conexao
      * @throws SQLException
      */
-    public abstract void atualizar(T objeto, Connection conexao) throws SQLException;
+    public abstract T atualizar(T objeto, Connection conexao) throws SQLException;
     /**
      * desativar pelo Mysql sem hibernate
      * @param objeto
@@ -243,7 +243,7 @@ public abstract class DAO<T> {
      * @param conexao
      * @throws SQLException
      */
-    public abstract void salvar(T objeto, Connection conexao) throws SQLException;
+    public abstract T salvar(T objeto, Connection conexao) throws SQLException;
 
 
     public abstract Object update(T objeto, EntityManager em);

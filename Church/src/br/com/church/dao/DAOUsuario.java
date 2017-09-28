@@ -294,11 +294,11 @@ public class DAOUsuario extends DAO<Usuario>{
 		return null;
 	}
 
-	public void atualizar(Usuario objeto) throws SQLException, ClassNotFoundException {
+	public Usuario atualizar(Usuario objeto) throws SQLException, ClassNotFoundException {
         Connection conexao = null;
         try {
             conexao = Util.criaConexaoMySql();
-            atualizar(objeto, conexao);
+            return atualizar(objeto, conexao);
         } finally {
             try {
                 conexao.close();
@@ -329,11 +329,12 @@ public class DAOUsuario extends DAO<Usuario>{
     }
 
 	@Override
-	public void atualizar(Usuario objeto, Connection conexao) throws SQLException {
+	public Usuario atualizar(Usuario objeto, Connection conexao) throws SQLException {
 		PreparedStatement sql = conexao.prepareStatement("update user set senha =? where id =?");
 		sql.setString(1, objeto.getSenha());
 		sql.setInt(2, objeto.getId_usuario());
 		sql.executeUpdate();
+		return objeto;
 	}
 
 	@Override
@@ -363,7 +364,7 @@ public class DAOUsuario extends DAO<Usuario>{
         ResultSet resultado = sql.executeQuery();
         Usuario user = null;
         if(resultado.next()){
-            user = preencher(resultado);
+            user = preencherCompleto(resultado);
         }
 		return user;
 	}
@@ -375,9 +376,9 @@ public class DAOUsuario extends DAO<Usuario>{
 	}
 
 	@Override
-	public void salvar(Usuario objeto, Connection conexao) throws SQLException {
+	public Usuario salvar(Usuario objeto, Connection conexao) throws SQLException {
 		// TODO Auto-generated method stub
-		
+		return objeto;
 	}
 	
 	public List<Usuario> listarTodosUsuarios() throws SQLException, ClassNotFoundException {
@@ -435,12 +436,14 @@ public class DAOUsuario extends DAO<Usuario>{
         usuario.setLogin(resultado.getString("login"));
         usuario.setSenha(resultado.getString("senha"));
         usuario.setStatus(getStatus(resultado.getString("status")));
+        usuario.setStatusName(resultado.getString("status"));
         GregorianCalendar gc = new GregorianCalendar();
         Date date = resultado.getDate("dateBirth");
         if(!IsNull(date)) 
         	gc.setTime(date);
         usuario.setDataNascimento(gc);
-        usuario.setSexo(getSexo(resultado.getString("senha")));
+        usuario.setSexo(getSexo(resultado.getString("sexo")));
+        usuario.setSexoName(resultado.getString("sexo"));
         usuario.setIdPais(resultado.getInt("pais_id"));
         usuario.setNom_pais(resultado.getString("nom_pais"));
         usuario.setIdEstado(resultado.getInt("estado_id"));

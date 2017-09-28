@@ -157,11 +157,11 @@ public class DAOAplicacao extends DAO<Aplicacao>{
 		return null;
 	}
 
-	public void atualizar(Aplicacao objeto) throws SQLException, ClassNotFoundException {
+	public Aplicacao atualizar(Aplicacao objeto) throws SQLException, ClassNotFoundException {
         Connection conexao = null;
         try {
             conexao = Util.criaConexaoMySql();
-            atualizar(objeto, conexao);
+           return atualizar(objeto, conexao);
         } finally {
             try {
                 conexao.close();
@@ -171,12 +171,13 @@ public class DAOAplicacao extends DAO<Aplicacao>{
     }
 	
 	@Override
-	public void atualizar(Aplicacao objeto, Connection conexao) throws SQLException {
+	public Aplicacao atualizar(Aplicacao objeto, Connection conexao) throws SQLException {
 		PreparedStatement sql = conexao.prepareStatement("update application set name=?, imageLogoAvailable=?, "
 				+ "imageLogoUnavailable=?, link=?, visible=?, messageUserActivation=?, namebutton=? where id =?");
 		sql = setSql(sql, objeto);
 		sql.setInt(8, objeto.getId());
 		sql.executeUpdate();
+		return objeto;
 	}
 	
 
@@ -218,11 +219,11 @@ public class DAOAplicacao extends DAO<Aplicacao>{
 		return null;
 	}
 
-	public void salvar(Aplicacao objeto) throws SQLException, ClassNotFoundException {
+	public Aplicacao salvar(Aplicacao objeto) throws SQLException, ClassNotFoundException {
         Connection conexao = null;
         try {
             conexao = Util.criaConexaoMySql();
-            salvar(objeto, conexao);
+            return salvar(objeto, conexao);
         } finally {
             try {
                 conexao.close();
@@ -232,11 +233,12 @@ public class DAOAplicacao extends DAO<Aplicacao>{
     }
 	
 	@Override
-	public void salvar(Aplicacao objeto, Connection conexao) throws SQLException {
+	public Aplicacao salvar(Aplicacao objeto, Connection conexao) throws SQLException {
 		PreparedStatement sql = conexao.prepareStatement("insert into application (name,imageLogoAvailable,imageLogoUnavailable,"
 				+ "link,visible,messageUserActivation,namebutton) values (?, ?, ?, ?, ?, ?, ?)");
 		sql = setSql(sql, objeto);
 		sql.execute();
+		return objeto;
 	}
 
 }

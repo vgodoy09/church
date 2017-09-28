@@ -92,9 +92,10 @@ public class DAOCidade extends DAO<Cidade>{
 	}
 
 	@Override
-	public void atualizar(Cidade objeto, Connection conexao)
+	public Cidade atualizar(Cidade objeto, Connection conexao)
 			throws SQLException {
 		// TODO Auto-generated method stub
+		return objeto;
 		
 	}
 
@@ -119,9 +120,9 @@ public class DAOCidade extends DAO<Cidade>{
 	}
 
 	@Override
-	public void salvar(Cidade objeto, Connection conexao) throws SQLException {
+	public Cidade salvar(Cidade objeto, Connection conexao) throws SQLException {
 		// TODO Auto-generated method stub
-		
+		return objeto;
 	}
 	
 }

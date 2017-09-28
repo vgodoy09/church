@@ -56,6 +56,7 @@
 	                                        	<th>Id do Usuario</th>
 	                                            <th>Nome do Usuario</th>
 	                                            <th>Status</th>
+	                                            <th>Sexo</th>
 	                                            <th>Data de Aniversario</th>
 	                                            <th>Pais</th>
 	                                            <th>Estado</th>
@@ -68,7 +69,8 @@
 		                                        <tr class="odd gradeC" onclick="location.href = 'ControleUsuarioConfig?antesAtualizar=&id=${use.id_usuario}';">
 			                                        	<td>${use.id_usuario}</td>
 			                                            <td>${use.nome}</td>
-			                                            <td>${use.status.ATIVO}</td>
+			                                            <td>${use.statusName}</td>
+			                                            <td>${use.sexoName}</td>
 			                                            <td>${use.dataFormatada}</td>
 			                                            <td>${use.nom_pais}</td>
 			                                            <td>${use.nom_estado}</td>

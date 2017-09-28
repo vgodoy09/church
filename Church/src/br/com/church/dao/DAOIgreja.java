@@ -194,11 +194,11 @@ public class DAOIgreja extends DAO<Igreja>{
 		return null;
 	}
 
-	public void atualizar(Igreja objeto) throws SQLException, ClassNotFoundException {
+	public Igreja atualizar(Igreja objeto) throws SQLException, ClassNotFoundException {
         Connection conexao = null;
         try {
             conexao = Util.criaConexaoMySql();
-            atualizar(objeto, conexao);
+            return atualizar(objeto, conexao);
         } finally {
             try {
                 conexao.close();
@@ -208,12 +208,13 @@ public class DAOIgreja extends DAO<Igreja>{
     }
 	
 	@Override
-	public void atualizar(Igreja objeto, Connection conexao) throws SQLException {
+	public Igreja atualizar(Igreja objeto, Connection conexao) throws SQLException {
 		PreparedStatement sql = conexao.prepareStatement("update church set name=?, logo=?, "
 				+ "dateBirth=?, pais_id=?, estado_id=?, cidade_id=?, endereco=?, number=? where id =?");
 		sql = setSql(sql, objeto);
 		sql.setInt(9, objeto.getId());
 		sql.executeUpdate();
+		return objeto;
 	}
 	
 
@@ -255,11 +256,11 @@ public class DAOIgreja extends DAO<Igreja>{
 		return null;
 	}
 
-	public void salvar(Igreja objeto) throws SQLException, ClassNotFoundException {
+	public Igreja salvar(Igreja objeto) throws SQLException, ClassNotFoundException {
         Connection conexao = null;
         try {
             conexao = Util.criaConexaoMySql();
-            salvar(objeto, conexao);
+            return salvar(objeto, conexao);
         } finally {
             try {
                 conexao.close();
@@ -269,11 +270,12 @@ public class DAOIgreja extends DAO<Igreja>{
     }
 	
 	@Override
-	public void salvar(Igreja objeto, Connection conexao) throws SQLException {
+	public Igreja salvar(Igreja objeto, Connection conexao) throws SQLException {
 		PreparedStatement sql = conexao.prepareStatement("insert into church (name,logo,dateBirth,"
 				+ "pais_id,estado_id,cidade_id,endereco,number) values (?, ?, ?, ?, ?, ?, ?, ?)");
 		sql = setSql(sql, objeto);
 		sql.execute();
+		return objeto;
 	}
 	
 	public void deleteAllUserChurch(Integer church_id) throws SQLException, ClassNotFoundException {

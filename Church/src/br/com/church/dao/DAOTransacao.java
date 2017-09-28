@@ -428,9 +428,10 @@ public class DAOTransacao extends DAO<Transacao>{
 	}
 
 	@Override
-	public void atualizar(Transacao objeto, Connection conexao)
+	public Transacao atualizar(Transacao objeto, Connection conexao)
 			throws SQLException {
 		// TODO Auto-generated method stub
+		return objeto;
 		
 	}
 
@@ -455,10 +456,10 @@ public class DAOTransacao extends DAO<Transacao>{
 	}
 
 	@Override
-	public void salvar(Transacao objeto, Connection conexao)
+	public Transacao salvar(Transacao objeto, Connection conexao)
 			throws SQLException {
 		// TODO Auto-generated method stub
-		
+		return objeto;
 	}
 	
 }
