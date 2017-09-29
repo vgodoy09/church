@@ -12,14 +12,28 @@ import br.com.church.facade.Messages.Status;
 public class Result<T> {
 	private Messages messages;
 	private T object;
+	private List<T> list;
 	
 	public Result(T object, Messages messages) {
 		this.object = object;
 		this.messages = messages;
 	}
 	
+	public Result(List<T> list, Messages messages) {
+		this.list = list;
+		this.messages = messages;
+	}
+	
+	public Result(Messages messages) {
+		this.messages = messages;
+	}
+	
 	public T getResultObject() {
 		return object;
+	}
+	
+	public List<T> getResultList(){
+		return list;
 	}
 	
 	private Boolean messagesIsNull(Messages messages) {

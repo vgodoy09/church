@@ -27,16 +27,14 @@ public class ControleUsuarioConfig extends HttpServlet {
     
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("btnNovo") != null) {
-			FachadaSistema fs = new FachadaSistema();
-			
-			request.getRequestDispatcher("/menu/cadastrousuario.jsp").forward(request, response);
+			request.getRequestDispatcher("/usuarioConfig/cadastrousuario.jsp").forward(request, response);
 		} else if(request.getParameter("antesAtualizar") != null){
 			String id = request.getParameter("id");
 			try {
 				FachadaSistema fs = new FachadaSistema();
 				Usuario usuar = fs.consultaUsuarioPorId(Integer.parseInt(id));
 				request.setAttribute("usuar", usuar);
-				request.getRequestDispatcher("/menu/atualizarusuario.jsp").forward(request, response);
+				request.getRequestDispatcher("/usuarioConfig/atualizarusuario.jsp").forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -45,7 +43,7 @@ public class ControleUsuarioConfig extends HttpServlet {
 			helperUsuario.setDados(request);
 			try {
 				FacadePrincipal<Usuario> fs = new FacadePrincipal<Usuario>();
-				fs.save(helperUsuario.getDados(), new DAOUsuario(), new ValidateUsuario());
+				fs.save(helperUsuario.getDados(), new DAOUsuario());
 				request.getRequestDispatcher("ControlarListagemUsuario").forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -55,7 +53,7 @@ public class ControleUsuarioConfig extends HttpServlet {
 			helperUsuario.setDados(request);
 			try {
 				FacadePrincipal<Usuario> fs = new FacadePrincipal<Usuario>();
-				fs.update(helperUsuario.getDados(), new DAOUsuario(), new ValidateUsuario());
+				fs.update(helperUsuario.getDados(), new DAOUsuario());
 				request.getRequestDispatcher("ControlarListagemUsuario").forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
