@@ -62,4 +62,19 @@ public class FacadePrincipal<T> extends FacadeSystem<T>{
 		return listarTodos;
 	}
 
+	@Override
+	protected T searchById(Integer id, DAO<T> dao, Messages messages) {
+		T object = null;
+		try {
+			object = dao.consultarPorId(id);
+		} catch (ClassNotFoundException e) {
+			messages.addResultMessage(Status.ERROR, e.getMessage());
+		} catch (SQLException e) {
+			messages.addResultMessage(Status.ERROR, e.getMessage());
+		}
+		messages.addResultMessage(Status.SUCCESS, "Consultado com sucesso");
+
+		return object;
+	}
+
 }

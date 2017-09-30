@@ -47,12 +47,12 @@
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                             	<form role="form" name="form" action="ControleApplication" method="post">
+                             	<form role="form" name="form" action="ControleUsuarioConfig" method="post">
                                 	<div class="col-lg-6">
                                         <div class="form-group">
                                             <label>Nome</label>
                                             <input class="form-control" placeholder="Nome" name="nome" value="${param['nome']}" autofocus>
-                                            <p class="help-block">Coloque o Nome da Aplicação Exemplo: Administração.</p>
+                                            <p class="help-block">Coloque o Nome do Usuario Exemplo: João da Silva.</p>
                                         </div>
                                         <div class="form-group">
                                             <label>Id do Botão</label>

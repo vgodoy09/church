@@ -8,10 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import br.com.church.business.ValidateUsuario;
 import br.com.church.dao.DAOUsuario;
 import br.com.church.facade.FacadePrincipal;
-import br.com.church.fachada.FachadaSistema;
+import br.com.church.facade.Result;
 import br.com.church.modelo.Usuario;
 import br.com.church.view.ViewHelperUsuario;
 
@@ -19,11 +18,11 @@ import br.com.church.view.ViewHelperUsuario;
 public class ControleUsuarioConfig extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ViewHelperUsuario helperUsuario;
+	private FacadePrincipal<Usuario> fs = new FacadePrincipal<Usuario>();
        
     public ControleUsuarioConfig() {
         super();
     }
-    
     
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("btnNovo") != null) {
@@ -31,9 +30,8 @@ public class ControleUsuarioConfig extends HttpServlet {
 		} else if(request.getParameter("antesAtualizar") != null){
 			String id = request.getParameter("id");
 			try {
-				FachadaSistema fs = new FachadaSistema();
-				Usuario usuar = fs.consultaUsuarioPorId(Integer.parseInt(id));
-				request.setAttribute("usuar", usuar);
+				Result<Usuario> usuar = fs.searchById(Integer.parseInt(id), new DAOUsuario());
+				request.setAttribute("usuar", usuar.getResultObject());
 				request.getRequestDispatcher("/usuarioConfig/atualizarusuario.jsp").forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -42,7 +40,6 @@ public class ControleUsuarioConfig extends HttpServlet {
 			helperUsuario = new ViewHelperUsuario();
 			helperUsuario.setDados(request);
 			try {
-				FacadePrincipal<Usuario> fs = new FacadePrincipal<Usuario>();
 				fs.save(helperUsuario.getDados(), new DAOUsuario());
 				request.getRequestDispatcher("ControlarListagemUsuario").forward(request, response);
 			} catch (Exception e) {
@@ -52,7 +49,6 @@ public class ControleUsuarioConfig extends HttpServlet {
 			helperUsuario = new ViewHelperUsuario();
 			helperUsuario.setDados(request);
 			try {
-				FacadePrincipal<Usuario> fs = new FacadePrincipal<Usuario>();
 				fs.update(helperUsuario.getDados(), new DAOUsuario());
 				request.getRequestDispatcher("ControlarListagemUsuario").forward(request, response);
 			} catch (Exception e) {

@@ -60,6 +60,12 @@ public abstract class FacadeSystem<T> {
 		return new Result<T>(resultMessages); 
 	}
 	
+	public final Result<T> searchById(Integer id, DAO<T> dao) {
+		Messages resultMessages = new Messages();
+		T resultObject = searchById(id, dao, resultMessages);
+		return new Result<T>(resultObject, resultMessages); 
+	}
+	
 	public final Result<T> listAll(DAO<T> dao) {
 		Messages resultMessages = new Messages();
 		listAll(dao, resultMessages);
@@ -74,6 +80,7 @@ public abstract class FacadeSystem<T> {
 	
 	protected abstract T save(T object, DAO<T> dao, Messages messages);
 	protected abstract T update(T object, DAO<T> dao, Messages messages);
+	protected abstract T searchById(Integer id, DAO<T> dao, Messages messages);
 	protected abstract void delete(T object, DAO<T> dao, Messages messages);
 	protected abstract List<T> listAll(DAO<T> dao, Messages messages);
 }
