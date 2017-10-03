@@ -1,3 +1,5 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"  pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -47,52 +49,85 @@
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                             	<form role="form" name="form" action="ControleApplication" method="post">
+                             	<form role="form" name="form" action="ControleUsuarioConfig" method="post">
                                 	<div class="col-lg-6">
-                                		<input type="hidden" name="txtid" value="${app.id}" />
                                         <div class="form-group">
                                             <label>Nome</label>
-                                            <input class="form-control" placeholder="Nome" name="nome" value="${app.nome}" autofocus>
-                                            <p class="help-block">Coloque o Nome da Aplicação Exemplo: Administração.</p>
+                                            <input class="form-control" placeholder="Nome" name="nome" value="${usuar.nome}" autofocus>
+                                            <p class="help-block">Coloque o Nome do Usuario Exemplo: João da Silva.</p>
                                         </div>
                                         <div class="form-group">
-                                            <label>Id do Botão</label>
-                                            <input class="form-control" placeholder="Nome" name="idButton" value="${app.namebutton}">
-                                            <p class="help-block">Coloque o id do botão.</p>
+                                            <label>Endereço</label>
+                                            <input class="form-control" placeholder="Endereco" name="endereco" value="${usuar.endereco}">
+                                            <p class="help-block">Coloque o Endereço Exemplo: Rua Manoel Martins Sanches.</p>
                                         </div>
                                         <div class="form-group">
-                                            <label>Imagem Avaliada</label>
-                                            <input class="form-control" placeholder="Imagem" name="imageAvailable" value="${app.imageLogoAvailable}" >
-                                            <p class="help-block">Coloque o Caminho da Imagem Exemplo: /imagens/aplicacao_imagem.jpg.</p>
+                                            <label>Nº</label>
+                                            <input class="form-control" placeholder="numero" name="numero" value="${usuar.numero}" >
+                                            <p class="help-block">Coloque  numero da casa Exemplo: 41.</p>
                                         </div>
                                         <div class="form-group">
-                                            <label>Imagem Não Avaliada</label>
-                                            <input class="form-control" placeholder="Imagem" name="imageUnavailable" value="${app.imageLogoUnavailable}" >
-                                            <p class="help-block">Coloque o Caminho da Imagem Exemplo: /imagens/aplicacao_imagem.jpg.</p>
+                                            <label>Data de Nascimento</label>
+                                            <input class="form-control" placeholder="data" name="dataFormatada" value="${usuar.dataFormatada}" >
+                                            <p class="help-block">Coloque a Data de Nascimento Exemplo: 19/10/1991.</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Sexo</label>
+                                            <select name="sexo" class="form-control">
+                                            	<option  selected></option>
+                                            	<option  value="${usuar.sexo}">Femenino</option>
+                                            	<option  value="${usuar.sexo}">Masculino</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Login</label>
+                                            <input class="form-control" name="email" value="${login}" disabled>
                                         </div>
 	                                </div>
 	                                <!-- /.col-lg-6 (nested) -->
 	                                <div class="col-lg-6">
 	                                	<div class="form-group">
-	                                         <label>Link</label>
-	                                         <input class="form-control" placeholder="Link" name="link" value="${app.link}" >
-	                                         <p class="help-block">Coloque o Link da Aplicacao Exemplo: /ControleAplicacao.</p>
-	                                     </div>
-	                                     <div class="form-group">
-	                                         <div class="checkbox">
-	                                       		 <label>
-	                                                 <input name="visible" type="checkbox"  value="${app.visible}">Visivel
-	                                             </label>
-	                                         </div>
-	                                     </div>
-	                                     <div class="form-group">
-	                                         <label>Text area</label>
-	                                         <textarea class="form-control" name="message" rows="3" >${app.messageUserActivation}</textarea>
-	                                         <p class="help-block">Uma descrição breve da aplicação.</p>
-	                                     </div>
-	                                     <div class="form-group text-right" style="margin-top:0px;">
-		                                	 <input type="submit" class="btn btn-default" name="btnAtualizar" value="Atualizar" />
-		                                 </div>
+                                            <label>Status</label>
+                                            <select name="status" class="form-control">
+                                            	<option  selected></option>
+                                            	<option  value="${usuar.status}">Ativo</option>
+                                            	<option  value="${usuar.status}">Inativo</option>
+                                            </select>
+                                        </div>
+	                                	<div class="form-group">
+                                            <label>Pais</label>
+                                            <select name="paises" class="form-control">
+                                            	<option  selected></option>
+                                            	<c:forEach items="${listarPais" var="pais">
+	                                                <option value="${pais.id}">${pais.name}</option>
+                                            	</c:forEach>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Estado</label>
+                                            <select name="estados" class="form-control">
+                                            	<option  selected></option>
+                                            	<c:forEach items="${listarEstado" var="estado">
+	                                                <option value="${estado.id}">${estado.name}</option>
+                                            	</c:forEach>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Cidade</label>
+                                            <select name="cidades" class="form-control">
+                                            	<option  selected></option>
+                                            	<c:forEach items="${listarCidade" var="cidade">
+	                                                <option value="${cidade.id}">${cidade.name}</option>
+                                            	</c:forEach>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Senha</label>
+                                            <input class="form-control" type="password" placeholder="Digite sua Senha..." name="password" value="${senha}" autofocus>
+                                        </div>
+	                                    <div class="form-group text-right" style="margin-top:0px;">
+		                                	<input type="submit" class="btn btn-default" name="btnCadastro" value="Cadastrar" />
+		                                </div>
 	                                </div>
                                 <!-- /.col-lg-6 (nested) -->
                                 </form>
