@@ -68,8 +68,8 @@ public abstract class FacadeSystem<T> {
 	
 	public final Result<T> listAll(DAO<T> dao) {
 		Messages resultMessages = new Messages();
-		listAll(dao, resultMessages);
-		return new Result<T>(resultMessages); 
+		List<T> listAll = listAll(dao, resultMessages);
+		return new Result<T>(listAll, resultMessages); 
 	}
 	
 	private Result<T> validate(T object, Command... validations) {

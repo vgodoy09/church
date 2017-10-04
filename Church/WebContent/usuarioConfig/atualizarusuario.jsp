@@ -75,57 +75,61 @@
                                         <div class="form-group">
                                             <label>Sexo</label>
                                             <select name="sexo" class="form-control">
-                                            	<option  selected></option>
+                                            	<option  selected>${usuar.sexo}</option>
                                             	<option  value="${usuar.sexo}">Femenino</option>
                                             	<option  value="${usuar.sexo}">Masculino</option>
                                             </select>
+                                            <p class="help-block">Escolha o sexo Exemplo: Masculino.</p>
                                         </div>
                                         <div class="form-group">
-                                            <label>Login</label>
-                                            <input class="form-control" name="email" value="${login}" disabled>
+                                            <label>Status</label>
+                                            <select name="status" class="form-control">
+                                            	<option  selected>${usuar.status}</option>
+                                            	<option  value="${usuar.status}">Ativo</option>
+                                            	<option  value="${usuar.status}">Inativo</option>
+                                            </select>
+                                            <p class="help-block">Status da pessoa Exemplo: Ativo.</p>
                                         </div>
 	                                </div>
 	                                <!-- /.col-lg-6 (nested) -->
 	                                <div class="col-lg-6">
 	                                	<div class="form-group">
-                                            <label>Status</label>
-                                            <select name="status" class="form-control">
-                                            	<option  selected></option>
-                                            	<option  value="${usuar.status}">Ativo</option>
-                                            	<option  value="${usuar.status}">Inativo</option>
-                                            </select>
-                                        </div>
-	                                	<div class="form-group">
                                             <label>Pais</label>
                                             <select name="paises" class="form-control">
-                                            	<option  selected></option>
-                                            	<c:forEach items="${listarPais" var="pais">
-	                                                <option value="${pais.id}">${pais.name}</option>
+                                            	<c:forEach items="${listarPais}" var="pais">
+	                                                <option value="${pais.id}" selected>${pais.nome}</option>
                                             	</c:forEach>
                                             </select>
+                                            <p class="help-block">Escolha o pais Exemplo: Brasil.</p>
                                         </div>
                                         <div class="form-group">
                                             <label>Estado</label>
                                             <select name="estados" class="form-control">
-                                            	<option  selected></option>
-                                            	<c:forEach items="${listarEstado" var="estado">
-	                                                <option value="${estado.id}">${estado.name}</option>
+                                            	<c:forEach items="${listarEstado}" var="estado">
+	                                                <option value="${estado.id}" selected>${estado.nome}</option>
                                             	</c:forEach>
                                             </select>
+                                            <p class="help-block">Escolha o estado Exemplo: Sao Paulo.</p>
                                         </div>
                                         <div class="form-group">
                                             <label>Cidade</label>
                                             <select name="cidades" class="form-control">
-                                            	<option  selected></option>
-                                            	<c:forEach items="${listarCidade" var="cidade">
-	                                                <option value="${cidade.id}">${cidade.name}</option>
+                                            	<c:forEach items="${listarCidade}" var="cidade">
+	                                                <option value="${cidade.id}" selected>${cidade.nome}</option>
                                             	</c:forEach>
                                             </select>
+                                            <p class="help-block">Escolha a Cidade Exemplo: Jacarei.</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Login</label>
+                                            <input class="form-control" name="email" value="${login}" disabled>
+                                            <p class="help-block">Email Exemplo: victorpradodegodoy09@gmail.com.</p>
                                         </div>
                                         <div class="form-group">
                                             <label>Senha</label>
                                             <input class="form-control" type="password" placeholder="Digite sua Senha..." name="password" value="${senha}" autofocus>
                                         </div>
+                                        <p class="help-block">Coloque a senha Exemplo: ika3b9.</p>
 	                                    <div class="form-group text-right" style="margin-top:0px;">
 		                                	<input type="submit" class="btn btn-default" name="btnCadastro" value="Cadastrar" />
 		                                </div>

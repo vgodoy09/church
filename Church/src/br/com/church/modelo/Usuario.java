@@ -157,14 +157,14 @@ public class Usuario extends EntidadeDominio implements Serializable{
 		this.numero = numero;
 	}
 	public String getEnderecoCompleto() {
-		enderecoCompleto = endereco + " N° " + numero;
+		enderecoCompleto = (IsNullOrIsEmpty(endereco) ? "" : endereco)  + " N° " + (IsNull(numero) ? "" : numero);
 		return enderecoCompleto;
 	}
 	public void setEnderecoCompleto(String enderecoCompleto) {
 		this.enderecoCompleto = enderecoCompleto;
 	}
 	public String getDataFormatada() {
-		dataFormatada = UtilsDate.dateFormats(!IsNull(dataNascimento) ? null : dataNascimento.getTime(), "dd/MM/yyyy");
+		dataFormatada = UtilsDate.dateFormats(IsNull(dataNascimento) ? null : dataNascimento.getTime(), "dd/MM/yyyy");
 		return dataFormatada;
 	}
 	public void setDataFormatada(String dataFormatada) {

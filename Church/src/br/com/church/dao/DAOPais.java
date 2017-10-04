@@ -1,6 +1,8 @@
 package br.com.church.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -106,15 +108,47 @@ public class DAOPais extends DAO<Pais>{
 
 	@Override
 	public Pais consultarPorId(int id, Connection conexao) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement sql = 
+    			conexao.prepareStatement(                                      
+    					"select p.cod_pais,  " +
+	    				"    	p.nom_pais   " +
+	    				"from pais p 		 " +
+	    				"where cod_pais=?");
+		sql.setInt(1, id);
+        ResultSet resultado = sql.executeQuery();
+        Pais pa = null;
+        if(resultado.next())
+            pa = preencher(resultado);
+      
+        return pa;
 	}
 
 	@Override
 	public List<Pais> listarTodos(Connection conexao) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement sql = 
+    			conexao.prepareStatement(                                      
+    					"select p.cod_pais,  " +
+	    				"    	p.nom_pais   " +
+	    				"from pais p ");
+        ResultSet resultado = sql.executeQuery();
+        List<Pais> paises = new ArrayList<Pais>();
+        while(resultado.next())
+        	paises.add(preencher(resultado));
+ 
+        return paises;
 	}
+	
+	/**
+     * Este metodo preencher usuario do banco de dados.
+     * @param ResultSet a resultado que deve retornar um resultado do banco.
+     * @throws SQLException caso ocorra alguma excessao na comunicacao com o banco.
+     */
+    public Pais preencher(ResultSet resultado) throws SQLException {
+        Pais pa = new Pais();
+        pa.setId(resultado.getInt("cod_pais"));
+        pa.setNome(resultado.getString("nom_pais"));
+         return pa;
+    }
 
 	@Override
 	public Pais salvar(Pais objeto, Connection conexao) throws SQLException {

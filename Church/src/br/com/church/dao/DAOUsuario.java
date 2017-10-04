@@ -349,7 +349,27 @@ public class DAOUsuario extends DAO<Usuario>{
 	
 	@Override
 	public Usuario consultarPorId(int id, Connection conexao) throws SQLException {
-		PreparedStatement sql = conexao.prepareStatement("select * from user u where u.status ='ATIVO' and u.id=?");
+		PreparedStatement sql = conexao.prepareStatement(
+						"select u.id,                                          " +
+	    				"	 u.name,                                           " +
+	    				"    u.login,                                          " +
+	    				"    u.senha,                                          " +
+	    				"    u.status,                                         " +
+	    				"    u.dateBirth,                                      " +
+	    				"    u.sexo,                                           " +
+	    				"	 u.pais_id,										   " +	
+	    				"    p.nom_pais,                                       " +
+	    				"    u.estado_id,                                      " +
+	    				"    e.nom_estado,                                     " +
+	    				"    u.cidade_id,                                      " +
+	    				"    c.nom_cidade,                                     " +
+	    				"    u.endereco,                                       " +
+	    				"    u.number                                          " +
+	    				"from user u                                           " +
+	    				"	 inner join pais p on p.cod_pais = u.pais_id       " +
+	    				"    inner join estado e on e.cod_estado = u.estado_id " +
+	    				"    inner join cidade c on c.cod_cidade = u.cidade_id " +
+	    				" where u.id = ?" );
         sql.setInt(1, id);
         ResultSet resultado = sql.executeQuery();
         Usuario user = null;
@@ -361,8 +381,33 @@ public class DAOUsuario extends DAO<Usuario>{
 
 	@Override
 	public List<Usuario> listarTodos(Connection conexao) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement sql = 
+    			conexao.prepareStatement(                                      
+    					"select u.id,                                          " +
+	    				"	 u.name,                                           " +
+	    				"    u.login,                                          " +
+	    				"    u.senha,                                          " +
+	    				"    u.status,                                         " +
+	    				"    u.dateBirth,                                      " +
+	    				"    u.sexo,                                           " +
+	    				"	 u.pais_id,										   " +	
+	    				"    p.nom_pais,                                       " +
+	    				"    u.estado_id,                                      " +
+	    				"    e.nom_estado,                                     " +
+	    				"    u.cidade_id,                                      " +
+	    				"    c.nom_cidade,                                     " +
+	    				"    u.endereco,                                       " +
+	    				"    u.number                                          " +
+	    				"from user u                                           " +
+	    				"	 inner join pais p on p.cod_pais = u.pais_id       " +
+	    				"    inner join estado e on e.cod_estado = u.estado_id " +
+	    				"    inner join cidade c on c.cod_cidade = u.cidade_id "  );
+        ResultSet resultado = sql.executeQuery();
+        List<Usuario> usuarios = new ArrayList<Usuario>();
+        while(resultado.next()){
+        	usuarios.add(preencherCompleto(resultado));
+        }
+        return usuarios;
 	}
 
 	@Override
