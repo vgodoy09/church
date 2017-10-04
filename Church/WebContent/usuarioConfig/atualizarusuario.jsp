@@ -51,6 +51,7 @@
                             <div class="row">
                              	<form role="form" name="form" action="ControleUsuarioConfig" method="post">
                                 	<div class="col-lg-6">
+                                		<input type="hidden" name="txtid" value="${usuar.id_usuario}" />
                                         <div class="form-group">
                                             <label>Nome</label>
                                             <input class="form-control" placeholder="Nome" name="nome" value="${usuar.nome}" autofocus>

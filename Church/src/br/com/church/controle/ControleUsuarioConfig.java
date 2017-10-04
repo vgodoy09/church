@@ -8,10 +8,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import br.com.church.dao.DAOPerfilUsuario;
 import br.com.church.dao.DAOUsuario;
 import br.com.church.facade.FacadePrincipal;
 import br.com.church.facade.Result;
+import br.com.church.modelo.PerfilUsuario;
 import br.com.church.modelo.Usuario;
+import br.com.church.util.Constants;
 import br.com.church.view.ViewHelperUsuario;
 
 @WebServlet("/ControleUsuarioConfig")
@@ -19,6 +22,7 @@ public class ControleUsuarioConfig extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ViewHelperUsuario helperUsuario;
 	private FacadePrincipal<Usuario> fs = new FacadePrincipal<Usuario>();
+	private FacadePrincipal<PerfilUsuario> fsp = new FacadePrincipal<PerfilUsuario>();
        
     public ControleUsuarioConfig() {
         super();
@@ -40,7 +44,8 @@ public class ControleUsuarioConfig extends HttpServlet {
 			helperUsuario = new ViewHelperUsuario();
 			helperUsuario.setDados(request);
 			try {
-				fs.save(helperUsuario.getDados(), new DAOUsuario());
+				Result<Usuario> result = fs.save(helperUsuario.getDados(), new DAOUsuario());
+				fsp.save(new PerfilUsuario(result.getResultObject().getId_usuario(), Constants.USERPROFILECOURSE), new DAOPerfilUsuario());
 				request.getRequestDispatcher("ControlarListagemUsuario").forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();

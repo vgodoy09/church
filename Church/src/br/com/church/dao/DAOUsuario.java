@@ -1,11 +1,14 @@
 package br.com.church.dao;
 
 import static br.com.church.util.CheckInstanceObject.IsNull;
+import static br.com.church.util.UtilsEnuns.getSexo;
+import static br.com.church.util.UtilsEnuns.getStatus;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -17,7 +20,6 @@ import javax.persistence.Query;
 
 import br.com.church.modelo.EntidadeDominio;
 import br.com.church.modelo.Usuario;
-import br.com.church.modelo.enuns.Sexo;
 import br.com.church.modelo.enuns.Status;
 import br.com.church.util.Util;
 
@@ -185,21 +187,7 @@ public class DAOUsuario extends DAO<Usuario>{
 //		}
 //	}
 	
-	private Status getStatus(String status){
-		if(Status.ATIVO.equals(status)){
-			return Status.ATIVO;
-		}else{
-			return Status.INATIVO;
-		}
-	}
 	
-	private Sexo getSexo(String status){
-		if(Sexo.MASCULINO.equals(status)){
-			return Sexo.MASCULINO;
-		}else{
-			return Sexo.FEMININO;
-		}
-	}
 	
 	@SuppressWarnings("unchecked")
 	public boolean ValidarUsuarioLoginExistente(EntidadeDominio entidade) throws SQLException, ClassNotFoundException {
@@ -330,9 +318,10 @@ public class DAOUsuario extends DAO<Usuario>{
 
 	@Override
 	public Usuario atualizar(Usuario objeto, Connection conexao) throws SQLException {
-		PreparedStatement sql = conexao.prepareStatement("update user set senha =? where id =?");
-		sql.setString(1, objeto.getSenha());
-		sql.setInt(2, objeto.getId_usuario());
+		PreparedStatement sql = conexao.prepareStatement("update user set name=?,login=?,senha=?,status=?, dateBirth=?, sexo=?,pais_id=?, "
+				+ "estado_id=?, cidade_id=? where id =?");
+		sql = setSql(sql, objeto);
+		sql.setInt(10, objeto.getId_usuario());
 		sql.executeUpdate();
 		return objeto;
 	}
@@ -340,8 +329,9 @@ public class DAOUsuario extends DAO<Usuario>{
 	@Override
 	public void desativar(Usuario objeto, Connection conexao)
 			throws SQLException {
-		// TODO Auto-generated method stub
-		
+		PreparedStatement sql = conexao.prepareStatement("update user set ='INATIVO' where id =?");
+		sql.setInt(1, objeto.getId_usuario());
+		sql.executeUpdate();
 	}
 
 	public Usuario consultarPorId(int id) throws SQLException, ClassNotFoundException {
@@ -377,9 +367,30 @@ public class DAOUsuario extends DAO<Usuario>{
 
 	@Override
 	public Usuario salvar(Usuario objeto, Connection conexao) throws SQLException {
-		// TODO Auto-generated method stub
+		PreparedStatement sql = conexao.prepareStatement("insert into user (name,login,senha,status, dateBirth, sexo,pais_id, "
+				+ "estado_id, cidade_id) values (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+		sql = setSql(sql, objeto);
+		sql.executeUpdate();
+		ResultSet rs = sql.getGeneratedKeys();
+		int lastId = 0;
+		if (rs.next()) 
+		   lastId = rs.getInt(1);
+		objeto.setId_usuario(lastId); //rs.getInt("id");
 		return objeto;
 	}
+	
+	private PreparedStatement setSql(PreparedStatement sql, Usuario obj) throws SQLException{
+    	sql.setString(1, obj.getNome());
+    	sql.setString(2, obj.getLogin());
+    	sql.setString(3, obj.getSenha());
+    	sql.setString(4, IsNull(obj.getStatus()) ? null : obj.getStatus().name());
+    	sql.setDate(5, IsNull(obj.getDataNascimento()) ? null : (java.sql.Date) obj.getDataNascimento().getTime());
+    	sql.setString(6, IsNull(obj.getSexo()) ? null : obj.getSexo().name());
+    	sql.setInt(7, obj.getIdPais());
+    	sql.setInt(8, obj.getIdEstado());
+    	sql.setInt(9, obj.getIdCidade());
+    	return sql;
+    }
 	
 	public List<Usuario> listarTodosUsuarios() throws SQLException, ClassNotFoundException {
         Connection conexao = null;
