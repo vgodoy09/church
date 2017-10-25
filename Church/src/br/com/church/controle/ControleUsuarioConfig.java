@@ -1,5 +1,7 @@
 package br.com.church.controle;
 
+import static br.com.church.util.CheckInstanceObject.IsNull;
+
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -8,12 +10,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import br.com.church.dao.DAOCidade;
 import br.com.church.dao.DAOEstado;
 import br.com.church.dao.DAOPais;
 import br.com.church.dao.DAOPerfilUsuario;
 import br.com.church.dao.DAOUsuario;
+import br.com.church.facade.FacadeCidade;
+import br.com.church.facade.FacadeEstado;
 import br.com.church.facade.FacadePrincipal;
 import br.com.church.facade.Result;
+import br.com.church.modelo.Cidade;
 import br.com.church.modelo.Estado;
 import br.com.church.modelo.Pais;
 import br.com.church.modelo.PerfilUsuario;
@@ -28,7 +34,8 @@ public class ControleUsuarioConfig extends HttpServlet {
 	private FacadePrincipal<Usuario> fs = new FacadePrincipal<Usuario>();
 	private FacadePrincipal<PerfilUsuario> fsp = new FacadePrincipal<PerfilUsuario>();
 	private FacadePrincipal<Pais> fp = new FacadePrincipal<Pais>();
-//	private FacadePrincipal<Estado> fe = new FacadePrincipal<Estado>();
+	private FacadeEstado fe = new FacadeEstado();
+	private FacadeCidade fc = new FacadeCidade();
        
     public ControleUsuarioConfig() {
         super();
@@ -42,12 +49,33 @@ public class ControleUsuarioConfig extends HttpServlet {
 			try {
 				Result<Usuario> usuar = fs.searchById(Integer.parseInt(id), new DAOUsuario());
 				request.setAttribute("usuar", usuar.getResultObject());
-				Result<Pais> listAll = fp.listAll(new DAOPais());
-				request.setAttribute("listarPais", listAll.getResultList());
-				
-//				request.setAttribute("listarEstado", listAll2.getResultList());
-				
-				request.getRequestDispatcher("/usuarioConfig/atualizarusuario.jsp").forward(request, response);
+				populateCombos(request, response, usuar.getResultObject());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else if(request.getParameter("estados") != null){
+			String ides = request.getParameter("selecionarEstado");
+			try {
+				helperUsuario = new ViewHelperUsuario();
+				helperUsuario.setDados(request);
+				Usuario dados = helperUsuario.getDados();
+				request.setAttribute("usuar", dados);
+				populateCombos(request, response, dados);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else if(request.getParameter("paises") != null){
+//			String idps = request.getParameter("selecionarPais");
+			try {
+				helperUsuario = new ViewHelperUsuario();
+				helperUsuario.setDados(request);
+				Usuario dados = helperUsuario.getDados();
+//				dados.setIdCidade(null);
+//				dados.setIdEstado(null);
+//				dados.setNom_cidade(null);
+//				dados.setNom_estado(null);
+//				request.setAttribute("usuar", dados);
+				populateCombos(request, response, dados);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -71,6 +99,21 @@ public class ControleUsuarioConfig extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private void populateCombos(HttpServletRequest request, HttpServletResponse response, Usuario usuar)
+			throws ServletException, IOException {
+		Result<Pais> listAll = fp.listAll(new DAOPais());
+		request.setAttribute("listarPais", listAll.getResultList());
+		Result<Estado> listByCountry = null;
+		if(!IsNull(usuar) && !IsNull(usuar.getIdPais())) 
+			listByCountry = fe.listByCountry(usuar.getIdPais(), new DAOEstado());
+		request.setAttribute("listarEstado", IsNull(listByCountry) ? "" : listByCountry.getResultList());
+		Result<Cidade> listByState = null;
+		if(!IsNull(usuar) && !IsNull(usuar.getIdEstado())) 
+			listByState = fc.listByState(usuar.getIdEstado(), new DAOCidade());
+		request.setAttribute("listarCidade", IsNull(listByState) ? "" : listByState.getResultList());
+		request.getRequestDispatcher("/usuarioConfig/atualizarusuario.jsp").forward(request, response);
 	}
    
 

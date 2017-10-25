@@ -17,9 +17,6 @@
     <!-- DataTables Responsive CSS -->
     <link href="bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
-    <link href="dist/css/sb-admin-2.css" rel="stylesheet">
-
     <!-- Custom Fonts -->
     <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     
@@ -125,14 +122,6 @@
 	
 	<script  src="js/jquery.treegrid.js"></script>
 	<script  src="js/jquery.treegrid.bootstrap3.js"></script>
-<!-- 	<script> -->
-// 	    $(document).ready(function() {
-// 	        $('.tree').treegrid({
-// 	                    expanderExpandedClass: 'glyphicon glyphicon-minus',
-// 	                    expanderCollapsedClass: 'glyphicon glyphicon-plus'
-// 	                });
-// 	    });
-<!-- 	</script> -->
 	<script>
 		function submit(){
 			document.forms[0].action = "/ControleMenu?selecionarAplicacao=&idapp=" + combo.options[ combo.selectedIndex ].value;

@@ -429,7 +429,8 @@ public class DAOUsuario extends DAO<Usuario>{
     	sql.setString(2, obj.getLogin());
     	sql.setString(3, obj.getSenha());
     	sql.setString(4, IsNull(obj.getStatus()) ? null : obj.getStatus().name());
-    	sql.setDate(5, IsNull(obj.getDataNascimento()) ? null : (java.sql.Date) obj.getDataNascimento().getTime());
+    	long date = (IsNull(obj.getDataNascimento()) ? (new Date().getTime()) : obj.getDataNascimento().getTime().getTime());
+    	sql.setDate(5, new java.sql.Date(date));
     	sql.setString(6, IsNull(obj.getSexo()) ? null : obj.getSexo().name());
     	sql.setInt(7, obj.getIdPais());
     	sql.setInt(8, obj.getIdEstado());

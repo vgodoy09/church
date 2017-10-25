@@ -9,11 +9,17 @@ import static br.com.church.util.CheckInstanceObject.IsNullOrIsEmpty;
 import static br.com.church.util.UtilsEnuns.getSexo;
 import static br.com.church.util.UtilsEnuns.getStatus;
 
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.servlet.http.HttpServletRequest;
 
+import br.com.church.facade.FacadeCidade;
+import br.com.church.facade.FacadeEstado;
+import br.com.church.facade.FacadePrincipal;
+import br.com.church.modelo.Pais;
 import br.com.church.modelo.Usuario;
+import static br.com.church.util.UtilsDate.*;
 
 /**
  *
@@ -21,6 +27,9 @@ import br.com.church.modelo.Usuario;
  */
 public class ViewHelperUsuario extends ViewHelper<Usuario>{
     private Usuario usua;
+//    private FacadePrincipal<Pais> fp = new FacadePrincipal<Pais>();
+//	private FacadeEstado fe = new FacadeEstado();
+//	private FacadeCidade fc = new FacadeCidade();
     @Override
     public void setDados(HttpServletRequest request) {
     	
@@ -45,6 +54,9 @@ public class ViewHelperUsuario extends ViewHelper<Usuario>{
     	String cidades = request.getParameter("cidades");
         String usuario = request.getParameter("email");
         String senha = request.getParameter("password");
+        String paisname = request.getParameter("txtpais");
+        String estadoname = request.getParameter("txtestado");
+        String cidadename = request.getParameter("txtcidade");
         
         usua = new Usuario();
         if(!IsNull(usuarioId))
@@ -55,8 +67,12 @@ public class ViewHelperUsuario extends ViewHelper<Usuario>{
         usua.setEndereco(endereco);
         if(!IsNullOrIsEmpty(numero))
         	usua.setNumero(Integer.parseInt(numero));
-        if(!IsNullOrIsEmpty(dataFormatada))
-        	usua.setDataNascimento(new GregorianCalendar());
+        if(!IsNullOrIsEmpty(dataFormatada)) {
+        	Date date = dtDateformat(dataFormatada, "dd/MM/yyyy");
+        	GregorianCalendar gc = new GregorianCalendar();
+        	gc.setTime(date);
+        	usua.setDataNascimento(gc);
+        }
         if(!IsNullOrIsEmpty(sexo))
         	usua.setSexo(getSexo(sexo));
         if(!IsNullOrIsEmpty(status))
@@ -67,6 +83,12 @@ public class ViewHelperUsuario extends ViewHelper<Usuario>{
         	usua.setIdEstado(Integer.parseInt(estados));
         if(!IsNullOrIsEmpty(cidades))
         	usua.setIdCidade(Integer.parseInt(cidades));
+        if(!IsNullOrIsEmpty(paisname))
+        	usua.setNom_pais(paisname);
+        if(!IsNullOrIsEmpty(estadoname))
+        	usua.setNom_estado(estadoname);
+        if(!IsNullOrIsEmpty(cidadename))
+        	usua.setNom_cidade(cidadename);
     }
 
     @Override

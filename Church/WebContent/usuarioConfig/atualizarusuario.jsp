@@ -1,3 +1,8 @@
+<%@page import="br.com.church.dao.DAOCidade"%>
+<%@page import="br.com.church.facade.FacadeCidade"%>
+<%@page import="br.com.church.util.CheckInstanceObject"%>
+<%@page import="br.com.church.dao.DAOEstado"%>
+<%@page import="br.com.church.facade.FacadeEstado"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"  pageEncoding="ISO-8859-1"%>
@@ -16,11 +21,14 @@
     <link href="bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="/dist/css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
+    
+    <!-- 1º Adicionamos o arquivo CSS do plugin ao código. -->
+    <!-- Datepicker -->
+    <link href="dist/css/datepicker.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -69,24 +77,29 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Data de Nascimento</label>
-                                            <input class="form-control" placeholder="data" name="dataFormatada" value="${usuar.dataFormatada}" >
+											<div class='input-group date datepicker'>
+												<input type='text' name="dataFormatada" class="form-control" value="${usuar.dataFormatada}" />
+												<span class="input-group-addon">
+													<span class="glyphicon glyphicon-calendar"></span>
+												</span>
+											</div>
                                             <p class="help-block">Coloque a Data de Nascimento Exemplo: 19/10/1991.</p>
                                         </div>
                                         <div class="form-group">
                                             <label>Sexo</label>
                                             <select name="sexo" class="form-control">
-                                            	<option  selected>${usuar.sexo}</option>
-                                            	<option  value="${usuar.sexo}">Femenino</option>
-                                            	<option  value="${usuar.sexo}">Masculino</option>
+                                            	<option  value="${usuar.sexo}" selected>${usuar.sexo}</option>
+                                            	<option  value="${usuar.sexo}">FEMININO</option>
+                                            	<option  value="${usuar.sexo}">MASCULINO</option>
                                             </select>
                                             <p class="help-block">Escolha o sexo Exemplo: Masculino.</p>
                                         </div>
                                         <div class="form-group">
                                             <label>Status</label>
                                             <select name="status" class="form-control">
-                                            	<option  selected>${usuar.status}</option>
-                                            	<option  value="${usuar.status}">Ativo</option>
-                                            	<option  value="${usuar.status}">Inativo</option>
+                                            	<option  value="${usuar.status}" selected>${usuar.status}</option>
+                                            	<option  value="${usuar.status}">ATIVO</option>
+                                            	<option  value="${usuar.status}">INATIVO</option>
                                             </select>
                                             <p class="help-block">Status da pessoa Exemplo: Ativo.</p>
                                         </div>
@@ -95,18 +108,21 @@
 	                                <div class="col-lg-6">
 	                                	<div class="form-group">
                                             <label>Pais</label>
-                                            <select name="paises" class="form-control">
-                                            	<c:forEach items="${listarPais}" var="pais">
-	                                                <option value="${pais.id}" selected>${pais.nome}</option>
-                                            	</c:forEach>
-                                            </select>
+	                                            <select name="paises" onchange="location.4href = 'ControleUsuarioConfig?paises';" class="form-control">
+	                                            	<option value="${usuar.idPais}" selected>${usuar.nom_pais}</option>
+	                                            	<c:forEach items="${listarPais}" var="pais">
+		                                                <option value="${pais.id}" >${pais.nome}</option>
+	                                            	</c:forEach>
+	                                            </select>
                                             <p class="help-block">Escolha o pais Exemplo: Brasil.</p>
                                         </div>
+                                        
                                         <div class="form-group">
                                             <label>Estado</label>
-                                            <select name="estados" class="form-control">
+                                            <select name="estados" onchange="submit()" class="form-control">
+                                            	<option value="${usuar.idEstado}" selected>${usuar.nom_estado}</option>
                                             	<c:forEach items="${listarEstado}" var="estado">
-	                                                <option value="${estado.id}" selected>${estado.nome}</option>
+	                                                <option value="${estado.id}" >${estado.nome}</option>
                                             	</c:forEach>
                                             </select>
                                             <p class="help-block">Escolha o estado Exemplo: Sao Paulo.</p>
@@ -114,24 +130,26 @@
                                         <div class="form-group">
                                             <label>Cidade</label>
                                             <select name="cidades" class="form-control">
+                                            	<option value="${usuar.idCidade}" selected>${usuar.nom_cidade}</option>
                                             	<c:forEach items="${listarCidade}" var="cidade">
-	                                                <option value="${cidade.id}" selected>${cidade.nome}</option>
+	                                                <option value="${cidade.id}" >${cidade.nome}</option>
                                             	</c:forEach>
                                             </select>
                                             <p class="help-block">Escolha a Cidade Exemplo: Jacarei.</p>
                                         </div>
                                         <div class="form-group">
                                             <label>Login</label>
-                                            <input class="form-control" name="email" value="${login}" disabled>
+                                            <input class="form-control" name="emailVisual" value="${usuar.login}" disabled>
+                                            <input type="hidden" name="email" value="${usuar.login}">
                                             <p class="help-block">Email Exemplo: victorpradodegodoy09@gmail.com.</p>
                                         </div>
                                         <div class="form-group">
                                             <label>Senha</label>
-                                            <input class="form-control" type="password" placeholder="Digite sua Senha..." name="password" value="${senha}" autofocus>
+                                            <input class="form-control" type="password" placeholder="Digite sua Senha..." name="password" value="${usuar.senha}" autofocus>
                                         </div>
                                         <p class="help-block">Coloque a senha Exemplo: ika3b9.</p>
 	                                    <div class="form-group text-right" style="margin-top:0px;">
-		                                	<input type="submit" class="btn btn-default" name="btnCadastro" value="Cadastrar" />
+		                                	<input type="submit" class="btn btn-default" name="btnAtualizar" value="Atualizar" />
 		                                </div>
 	                                </div>
                                 <!-- /.col-lg-6 (nested) -->
@@ -159,8 +177,37 @@
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
+    
+    <!-- Referência do arquivo JS do plugin após carregar o jquery -->
+      <!-- Datepicker -->
+      <script src="dist/js/bootstrap-datepicker.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="dist/js/sb-admin-2.js"></script>
+    <script>
+	    $('.datepicker').datepicker({
+		  format: 'dd/mm/yyyy',  
+	    });
+    </script>
+	<script>
+		function doSomething() {
+			var comboEstados = document.getElementById("estados");
+		    while (comboEstados.length) {
+		        comboEstados.remove(0);
+		    }
+		    var comboCidades = document.getElementById("cidades");
+		    while (comboCidades.length) {
+		        comboCidades.remove(0);
+		    }
+		}
+	</script>  
+	<script>
+		function doSomethingeState() {
+			var comboCidades = document.getElementById("cidades");
+		    while (comboCidades.length) {
+		        comboCidades.remove(0);
+		    }
+		}
+	</script>  
 </body>
 </html>

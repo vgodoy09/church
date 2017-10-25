@@ -1,6 +1,8 @@
 package br.com.church.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -107,17 +109,79 @@ public class DAOCidade extends DAO<Cidade>{
 	}
 
 	@Override
-	public Cidade consultarPorId(int id, Connection conexao)
-			throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public Cidade consultarPorId(int id, Connection conexao) throws SQLException {
+		PreparedStatement sql = 
+				conexao.prepareStatement(                                      
+    					"select p.cod_cidade,   " +
+	    				"    	p.nom_cidade,   " +
+	    				"    	p.cod_estado    " +
+	    				"from cidade p where p.cod_cidade =?");
+		sql.setInt(1, id);
+        ResultSet resultado = sql.executeQuery();
+        Cidade cd = null;
+        if(resultado.next())
+        	cd = preencher(resultado);
+      
+        return cd;
 	}
 
 	@Override
 	public List<Cidade> listarTodos(Connection conexao) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement sql = 
+				conexao.prepareStatement(                                      
+    					"select p.cod_cidade,   " +
+	    				"    	p.nom_cidade,   " +
+	    				"    	p.cod_estado    " +
+	    				"from cidade p ");
+        ResultSet resultado = sql.executeQuery();
+        List<Cidade> cidade = new ArrayList<Cidade>();
+        while(resultado.next())
+        	cidade.add(preencher(resultado));
+        
+        return cidade;
 	}
+	
+	public List<Cidade> listarPeloEstado(Integer idEstado) throws SQLException, ClassNotFoundException {
+        Connection conexao = null;
+        try {
+            conexao = Util.criaConexaoMySql();
+           return listarPeloEstado(idEstado, conexao);
+        } finally {
+            try {
+                conexao.close();
+            } catch (Exception erro) {
+            }
+        }
+    }
+	
+	public List<Cidade> listarPeloEstado(Integer idEstado, Connection conexao) throws SQLException {
+		PreparedStatement sql = 
+    			conexao.prepareStatement(                                      
+    					"select p.cod_cidade,   " +
+	    				"    	p.nom_cidade,   " +
+	    				"    	p.cod_estado      " +
+	    				"from cidade p where p.cod_estado = ?");
+		sql.setInt(1, idEstado);
+        ResultSet resultado = sql.executeQuery();
+        List<Cidade> cidade = new ArrayList<Cidade>();
+        while(resultado.next())
+        	cidade.add(preencher(resultado));
+ 
+        return cidade;
+	}
+	
+	/**
+     * Este metodo preencher usuario do banco de dados.
+     * @param ResultSet a resultado que deve retornar um resultado do banco.
+     * @throws SQLException caso ocorra alguma excessao na comunicacao com o banco.
+     */
+    public Cidade preencher(ResultSet resultado) throws SQLException {
+        Cidade cd = new Cidade();
+        cd.setId(resultado.getInt("cod_cidade"));
+        cd.setNome(resultado.getString("nom_cidade"));
+        cd.setFk_estado(resultado.getInt("cod_estado"));
+         return cd;
+    }
 
 	@Override
 	public Cidade salvar(Cidade objeto, Connection conexao) throws SQLException {

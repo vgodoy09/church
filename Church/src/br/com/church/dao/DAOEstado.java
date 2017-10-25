@@ -1,6 +1,8 @@
 package br.com.church.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -107,17 +109,83 @@ public class DAOEstado extends DAO<Estado>{
 	}
 
 	@Override
-	public Estado consultarPorId(int id, Connection conexao)
-			throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public Estado consultarPorId(int id, Connection conexao) throws SQLException {
+		PreparedStatement sql = 
+				conexao.prepareStatement(                                      
+    					"select p.cod_estado,   " +
+	    				"    	p.nom_estado,   " +
+	    				"    	p.sgl_estado,   " +
+	    				"    	p.cod_pais      " +
+	    				"from estado p where p.cod_estado =?");
+		sql.setInt(1, id);
+        ResultSet resultado = sql.executeQuery();
+        Estado et = null;
+        if(resultado.next())
+        	et = preencher(resultado);
+      
+        return et;
 	}
 
 	@Override
 	public List<Estado> listarTodos(Connection conexao) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement sql = 
+				conexao.prepareStatement(                                      
+    					"select p.cod_estado,   " +
+	    				"    	p.nom_estado,   " +
+	    				"    	p.sgl_estado,   " +
+	    				"    	p.cod_pais      " +
+	    				"from estado p ");
+        ResultSet resultado = sql.executeQuery();
+        List<Estado> estado = new ArrayList<Estado>();
+        while(resultado.next())
+        	estado.add(preencher(resultado));
+ 
+        return estado;
 	}
+	
+	public List<Estado> listarPeloPais(Integer idPais) throws SQLException, ClassNotFoundException {
+        Connection conexao = null;
+        try {
+            conexao = Util.criaConexaoMySql();
+           return listarPeloPais(idPais, conexao);
+        } finally {
+            try {
+                conexao.close();
+            } catch (Exception erro) {
+            }
+        }
+    }
+	
+	public List<Estado> listarPeloPais(Integer idPais, Connection conexao) throws SQLException {
+		PreparedStatement sql = 
+    			conexao.prepareStatement(                                      
+    					"select p.cod_estado,   " +
+	    				"    	p.nom_estado,   " +
+	    				"    	p.sgl_estado,   " +
+	    				"    	p.cod_pais      " +
+	    				"from estado p where p.cod_pais = ?");
+		sql.setInt(1, idPais);
+        ResultSet resultado = sql.executeQuery();
+        List<Estado> estado = new ArrayList<Estado>();
+        while(resultado.next())
+        	estado.add(preencher(resultado));
+ 
+        return estado;
+	}
+	
+	/**
+     * Este metodo preencher usuario do banco de dados.
+     * @param ResultSet a resultado que deve retornar um resultado do banco.
+     * @throws SQLException caso ocorra alguma excessao na comunicacao com o banco.
+     */
+    public Estado preencher(ResultSet resultado) throws SQLException {
+        Estado et = new Estado();
+        et.setId(resultado.getInt("cod_estado"));
+        et.setNome(resultado.getString("nom_estado"));
+        et.setUf(resultado.getString("sgl_estado"));
+        et.setFk_pais(resultado.getInt("cod_pais"));
+         return et;
+    }
 
 	@Override
 	public Estado salvar(Estado objeto, Connection conexao) throws SQLException {
